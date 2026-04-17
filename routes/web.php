@@ -16,8 +16,15 @@ Route::get('/', [ProductoController::class, 'index'])->name('menu.index');
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('productos.show');
 
 Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+//rutas para el carrito de compras 
+//Route::get('/carrito/add/{id}', [CarritoController::class, 'add'])->name('carrito.add');
 Route::post('/carrito/agregar/{id}', [CarritoController::class, 'add'])->name('carrito.add');
+//Route::get('/carrito/remove/{id}', [CarritoController::class, 'remove'])->name('carrito.remove');
 Route::post('/carrito/eliminar/{id}', [CarritoController::class, 'remove'])->name('carrito.remove');
+
+Route::post('/carrito/update/{id}', [CarritoController::class, 'update'])->name('carrito.update');
+
+Route::get('/carrito/clear', [CarritoController::class, 'clear'])->name('carrito.clear');
 
 // PRIVADO
 Route::middleware(['auth'])->group(function () {
@@ -27,7 +34,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('direcciones', DireccionController::class);
 
+    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
     Route::middleware(['role:superadmin'])->group(function () {

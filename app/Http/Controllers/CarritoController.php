@@ -13,6 +13,7 @@ class CarritoController extends Controller
         return view('carrito.index', compact('carrito'));
     }
 
+    // AGREGAR PRODUCTO
     public function add($id)
     {
         $producto = Producto::findOrFail($id);
@@ -31,9 +32,10 @@ class CarritoController extends Controller
 
         session()->put('carrito', $carrito);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Producto agregado al carrito');
     }
 
+    // ELIMINAR PRODUCTO
     public function remove($id)
     {
         $carrito = session()->get('carrito', []);
@@ -43,6 +45,27 @@ class CarritoController extends Controller
             session()->put('carrito', $carrito);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Producto eliminado');
+    }
+
+    // ACTUALIZAR CANTIDAD
+    public function update(Request $request, $id)
+    {
+        $carrito = session()->get('carrito', []);
+
+        if(isset($carrito[$id])) {
+            $carrito[$id]['cantidad'] = $request->cantidad;
+            session()->put('carrito', $carrito);
+        }
+
+        return redirect()->back()->with('success', 'Cantidad actualizada');
+    }
+
+    // VACIAR CARRITO
+    public function clear()
+    {
+        session()->forget('carrito');
+
+        return redirect()->back()->with('success', 'Carrito vaciado');
     }
 }

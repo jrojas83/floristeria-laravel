@@ -1,21 +1,18 @@
-<x-app-layout>
-    <h1>Carrito</h1>
+@if(session('success'))
+    <p>{{ session('success') }}</p>
+@endif
 
-    @if(session('carrito') && count(session('carrito')) > 0)
-        @foreach(session('carrito') as $id => $item)
-            <div>
-                <h3>{{ $item['nombre'] }}</h3>
-                <p>Cantidad: {{ $item['cantidad'] }}</p>
-                <p>Precio: ${{ $item['precio'] }}</p>
+@foreach($carrito as $id => $item)
+    <p>{{ $item['nombre'] }}</p>
+    <p>${{ $item['precio'] }}</p>
 
-                <form action="{{ route('carrito.remove', $id) }}" method="POST">
-                    @csrf
-                    <button type="submit">Eliminar</button>
-                </form>
-            </div>
-            <hr>
-        @endforeach
-    @else
-        <p>Carrito vacío</p>
-    @endif
-</x-app-layout>
+    <form action="{{ route('carrito.update', $id) }}" method="POST">
+        @csrf
+        <input type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1">
+        <button type="submit">Actualizar</button>
+    </form>
+
+    <a href="{{ route('carrito.remove', $id) }}">Eliminar</a>
+@endforeach
+
+<a href="{{ route('carrito.clear') }}">Vaciar carrito</a>

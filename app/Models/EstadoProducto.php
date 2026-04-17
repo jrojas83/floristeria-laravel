@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class EstadoProducto extends Model
-{   
-    protected $fillable = [
-    'nombre'
-];
+{  
+    protected $table = 'estados_producto'; 
+    protected $fillable = ['nombre'];
+    public $timestamps = false;
+
 
     public function productos()
     {

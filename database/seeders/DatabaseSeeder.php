@@ -3,23 +3,54 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // ROLES
+        $roleCliente = Role::firstOrCreate(['name' => 'cliente']);
+        $roleAdmin = Role::firstOrCreate(['name' => 'admin']);
+        $roleSuperAdmin = Role::firstOrCreate(['name' => 'superadmin']);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // SUPERADMIN
+        $superAdmin = User::firstOrCreate(
+            ['email' => 'superadmin@example.com'],
+            [
+                'name' => 'Super Admin User',
+                'password' => Hash::make('123456')
+            ]
+        );
+        $superAdmin->assignRole($roleSuperAdmin);
+
+        // ADMIN
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('123456')
+            ]
+        );
+        $admin->assignRole($roleAdmin);
+
+        // CLIENTE
+        $cliente = User::firstOrCreate(
+            ['email' => 'cliente@example.com'],
+            [
+                'name' => 'Cliente User',
+                'password' => Hash::make('123456')
+            ]
+        );
+        $cliente->assignRole($roleCliente);
+
+        // LLAMAR PRODUCTOS
+        $this->call([
+        EstadoProductoSeeder::class,
+        CategoriaSeeder::class,
+        ProductoSeeder::class,
         ]);
     }
 }
