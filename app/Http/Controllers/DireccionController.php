@@ -2,52 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Direccion;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class DireccionController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $direcciones = Direccion::where('user_id', Auth::id())->get();
+        $direcciones = Direccion::query()
+            ->where('user_id', Auth::id())
+            ->orderByDesc('id')
+            ->get();
+
         return view('direcciones.index', compact('direcciones'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('direcciones.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        Direccion::create([
-            'user_id' => Auth::id(),
-            'direccion' => $request->direccion,
-            'ciudad' => $request->ciudad
+        $validated = $request->validate([
+            'direccion' => ['required', 'string', 'max:2000'],
+            'ciudad' => ['nullable', 'string', 'max:120'],
+            'referencia' => ['nullable', 'string', 'max:500'],
         ]);
 
-        return redirect()->route('direcciones.index');
+        Direccion::create([
+            'user_id' => Auth::id(),
+            'direccion' => $validated['direccion'],
+            'ciudad' => $validated['ciudad'] ?? null,
+            'referencia' => $validated['referencia'] ?? null,
+        ]);
+
+        return redirect()->route('direcciones.index')->with('success', 'Dirección guardada.');
     }
 
-    public function edit($id)
+    public function edit(string $id): View
     {
-        $direccion = Direccion::findOrFail($id);
+        $direccion = Direccion::query()->where('user_id', Auth::id())->findOrFail($id);
+
         return view('direcciones.edit', compact('direccion'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id): RedirectResponse
     {
-        $direccion = Direccion::findOrFail($id);
+        $direccion = Direccion::query()->where('user_id', Auth::id())->findOrFail($id);
 
-        $direccion->update($request->all());
+        $validated = $request->validate([
+            'direccion' => ['required', 'string', 'max:2000'],
+            'ciudad' => ['nullable', 'string', 'max:120'],
+            'referencia' => ['nullable', 'string', 'max:500'],
+        ]);
 
-        return redirect()->route('direcciones.index');
+        $direccion->update($validated);
+
+        return redirect()->route('direcciones.index')->with('success', 'Dirección actualizada.');
     }
 
-    public function destroy($id)
+    public function destroy(string $id): RedirectResponse
     {
-        Direccion::destroy($id);
-        return redirect()->route('direcciones.index');
+        $direccion = Direccion::query()->where('user_id', Auth::id())->findOrFail($id);
+        $direccion->delete();
+
+        return redirect()->route('direcciones.index')->with('success', 'Dirección eliminada.');
     }
 }

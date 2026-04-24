@@ -8,12 +8,14 @@ class DetalleRecibo extends Model
 {
     protected $table = 'detalle_recibo';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'recibo_id',
         'producto_id',
         'cantidad',
         'precio_unitario',
-        'subtotal'
+        'subtotal',
     ];
 
     public function recibo()

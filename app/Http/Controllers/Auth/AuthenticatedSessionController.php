@@ -30,15 +30,20 @@ class AuthenticatedSessionController extends Controller
 
         $user = auth()->user();
 
-        // Redirección por roles (orden de prioridad)
         if ($user->hasRole('superadmin')) {
             return redirect('/superadmin');
-        } elseif ($user->hasRole('admin')) {
-            return redirect('/admin');
-        } else {
-            return redirect('/cliente');
         }
-       
+
+        if ($user->hasRole('admin')) {
+            return redirect('/admin');
+        }
+
+        if ($user->hasRole('cliente')) {
+            return redirect()->route('cliente.index');
+        }
+
+        return redirect()->route('dashboard');
+
     }
 
     /**
@@ -53,7 +58,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
-        
-    }
 
+    }
 }

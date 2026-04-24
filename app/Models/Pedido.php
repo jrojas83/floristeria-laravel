@@ -3,17 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-//aqui ya se hizo 3
+
+// aqui ya se hizo 3
 class Pedido extends Model
-{   
+{
+    protected $table = 'pedidos';
 
     protected $fillable = [
-    'user_id',
-    'direccion_id',
-    'direccion_texto',
-    'estado_id',
-    'total',
-    'activo'
+        'user_id',
+        'direccion_id',
+        'direccion_texto',
+        'estado_id',
+        'total',
+        'activo',
     ];
 
     public function user()
@@ -44,5 +46,5 @@ class Pedido extends Model
     public function historial()
     {
         return $this->hasMany(HistorialEstadoPedido::class);
-    }  //
+    }
 }

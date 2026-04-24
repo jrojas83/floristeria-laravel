@@ -1,16 +1,20 @@
 <?php
 
 namespace App\Models;
-//11
+
+// 11
 use Illuminate\Database\Eloquent\Model;
 
 class HistorialEstadoPedido extends Model
-{   
+{
+    protected $table = 'historial_estados_pedido';
+
+    public $timestamps = false;
+
     protected $fillable = [
-    'pedido_id',
-    'estado_id',
-    'comentario'
-    // 'fecha' se llena automáticamente con CURRENT_TIMESTAMP
+        'pedido_id',
+        'estado_id',
+        'comentario',
     ];
 
     public function pedido()

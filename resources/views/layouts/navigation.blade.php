@@ -14,6 +14,16 @@
                     <x-nav-link :href="route('menu.index')" :active="request()->routeIs('menu.index')">
                         Inicio
                     </x-nav-link>
+                    <x-nav-link :href="route('carrito.index')" :active="request()->routeIs('carrito.index')">
+                        Carrito
+                    </x-nav-link>
+                    @auth
+                        @if (Auth::user()->hasRole('cliente'))
+                            <x-nav-link :href="route('cliente.index')" :active="request()->routeIs('cliente.index')">
+                                Mi cuenta
+                            </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -41,6 +51,21 @@
                     <x-slot name="content">
 
                         @auth
+                            @if (Auth::user()->hasRole('cliente'))
+                                <x-dropdown-link :href="route('cliente.index')">
+                                    Mi espacio
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('pedidos.index')">
+                                    Mis pedidos
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('direcciones.index')">
+                                    Mis direcciones
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('carrito.index')">
+                                    Carrito
+                                </x-dropdown-link>
+                            @endif
+
                             <x-dropdown-link :href="route('profile.edit')">
                                 Perfil
                             </x-dropdown-link>

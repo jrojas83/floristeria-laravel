@@ -3,20 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-//aqui ya se hizo 4
+
+// aqui ya se hizo 4
 class DetallePedido extends Model
-{   
+{
+    protected $table = 'detalle_pedido';
+
     protected $fillable = [
-    'pedido_id',
-    'producto_id',
-    'cantidad',
-    'precio_unitario',
-    'subtotal',
-    'mensaje',
-    'dedicatoria',
-    'activo'
+        'pedido_id',
+        'producto_id',
+        'cantidad',
+        'precio_unitario',
+        'subtotal',
+        'mensaje',
+        'dedicatoria',
+        'activo',
     ];
-    
+
     public function pedido()
     {
         return $this->belongsTo(Pedido::class);
@@ -25,5 +28,5 @@ class DetallePedido extends Model
     public function producto()
     {
         return $this->belongsTo(Producto::class);
-    }    
+    }
 }

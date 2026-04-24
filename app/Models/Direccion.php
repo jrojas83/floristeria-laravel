@@ -3,15 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-//aqui ya se hizo 5
+
+// aqui ya se hizo 5
 class Direccion extends Model
-{   
+{
+    protected $table = 'direcciones';
+
     protected $fillable = [
-    'user_id',
-    'direccion',
-    'ciudad',
-    'referencia',
-    'activo'
+        'user_id',
+        'direccion',
+        'ciudad',
+        'referencia',
+        'activo',
     ];
 
     public function user()
@@ -22,5 +25,5 @@ class Direccion extends Model
     public function pedidos()
     {
         return $this->hasMany(Pedido::class);
-    } 
+    }
 }

@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'superadmin@example.com'],
             [
                 'name' => 'Super Admin User',
-                'password' => Hash::make('123456')
+                'password' => Hash::make('123456'),
             ]
         );
         $superAdmin->assignRole($roleSuperAdmin);
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@example.com'],
             [
                 'name' => 'Admin User',
-                'password' => Hash::make('123456')
+                'password' => Hash::make('123456'),
             ]
         );
         $admin->assignRole($roleAdmin);
@@ -41,16 +41,16 @@ class DatabaseSeeder extends Seeder
             ['email' => 'cliente@example.com'],
             [
                 'name' => 'Cliente User',
-                'password' => Hash::make('123456')
+                'password' => Hash::make('123456'),
             ]
         );
         $cliente->assignRole($roleCliente);
 
-        // LLAMAR PRODUCTOS
         $this->call([
-        EstadoProductoSeeder::class,
-        CategoriaSeeder::class,
-        ProductoSeeder::class,
+            EstadoPedidoSeeder::class,
+            EstadoProductoSeeder::class,
+            CategoriaSeeder::class,
+            ProductoSeeder::class,
         ]);
     }
 }

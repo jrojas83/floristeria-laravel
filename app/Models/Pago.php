@@ -3,16 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-//aqui ya se hizo 6
+
+// aqui ya se hizo 6
 class Pago extends Model
 {
-       
+    protected $table = 'pagos';
+
+    public $timestamps = false;
+
     protected $fillable = [
-    'pedido_id',
-    'metodo_pago_id',
-    'estado_id',
-    'monto',
-    'activo'
+        'pedido_id',
+        'metodo_pago_id',
+        'estado_id',
+        'monto',
+        'activo',
     ];
 
     public function pedido()
@@ -28,5 +32,5 @@ class Pago extends Model
     public function estado()
     {
         return $this->belongsTo(EstadoPago::class, 'estado_id');
-    }    
+    }
 }

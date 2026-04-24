@@ -3,19 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-//aqui ya se hizo 2
+
+// aqui ya se hizo 2
 class Producto extends Model
-{   
+{
+    protected $table = 'productos';
 
     protected $fillable = [
-    'nombre',
-    'descripcion',
-    'precio',
-    'stock',
-    'imagen',
-    'estado_id',
-    'categoria_id',
-    'activo'
+        'nombre',
+        'descripcion',
+        'precio',
+        'stock',
+        'imagen',
+        'estado_id',
+        'categoria_id',
+        'activo',
     ];
 
     public function categoria()
